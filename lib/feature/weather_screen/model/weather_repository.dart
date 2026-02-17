@@ -6,15 +6,17 @@ import '../model/weather_data_model.dart';
 
 class WeatherRepository {
 
-  static Future<WeatherDataModel?> fetchWeatherData(double latitude, double longitude) async {
+  static Future<WeatherDataModel?> fetchWeatherData(double? latitude, double? longitude) async {
 
     try {
       final response = await ApiBaseClient().dio.get(
         Endpoints.forecast,
         queryParameters: {
-          "latitude": latitude,
-          "longitude": longitude,
+          "latitude": latitude ?? 28.6519,
+          "longitude": longitude ?? 77.2315,
           "current_weather": true,
+          "hourly" : "temperature_2m",
+          "temporal_resolution": "hourly_3"
         },
       );
 
@@ -28,9 +30,13 @@ class WeatherRepository {
         return weatherData;
       }
     } on Exception catch ( e) {
-      print("Error ---> ${e}");
+      print("Error ---> $e");
       rethrow;
     }
     return null;
+  }
+
+  Future thoughtOfDay() async {
+
   }
 }

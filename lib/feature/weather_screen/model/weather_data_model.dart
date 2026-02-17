@@ -9,6 +9,7 @@ WeatherDataModel weatherDataModelFromJson(String str) => WeatherDataModel.fromJs
 String weatherDataModelToJson(WeatherDataModel data) => json.encode(data.toJson());
 
 class WeatherDataModel {
+
   final num? latitude;
   final num? longitude;
   final num? generationtimeMs;
@@ -18,6 +19,8 @@ class WeatherDataModel {
   final num? elevation;
   final CurrentWeatherUnits? currentWeatherUnits;
   final CurrentWeather? currentWeather;
+  final HourlyUnits? hourlyUnits;
+  final Hourly? hourly;
 
   WeatherDataModel({
     this.latitude,
@@ -29,6 +32,8 @@ class WeatherDataModel {
     this.elevation,
     this.currentWeatherUnits,
     this.currentWeather,
+    this.hourlyUnits,
+    this.hourly,
   });
 
   factory WeatherDataModel.fromJson(Map<String, dynamic> json) => WeatherDataModel(
@@ -41,6 +46,8 @@ class WeatherDataModel {
     elevation: json["elevation"],
     currentWeatherUnits: json["current_weather_units"] == null ? null : CurrentWeatherUnits.fromJson(json["current_weather_units"]),
     currentWeather: json["current_weather"] == null ? null : CurrentWeather.fromJson(json["current_weather"]),
+    hourlyUnits: json["hourly_units"] == null ? null : HourlyUnits.fromJson(json["hourly_units"]),
+    hourly: json["hourly"] == null ? null : Hourly.fromJson(json["hourly"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -53,6 +60,8 @@ class WeatherDataModel {
     "elevation": elevation,
     "current_weather_units": currentWeatherUnits?.toJson(),
     "current_weather": currentWeather?.toJson(),
+    "hourly_units": hourlyUnits?.toJson(),
+    "hourly": hourly?.toJson(),
   };
 }
 
@@ -133,5 +142,45 @@ class CurrentWeatherUnits {
     "winddirection": winddirection,
     "is_day": isDay,
     "weathercode": weathercode,
+  };
+}
+
+class Hourly {
+  final List<String>? time;
+  final List<num>? temperature2M;
+
+  Hourly({
+    this.time,
+    this.temperature2M,
+  });
+
+  factory Hourly.fromJson(Map<String, dynamic> json) => Hourly(
+    time: json["time"] == null ? [] : List<String>.from(json["time"]!.map((x) => x)),
+    temperature2M: json["temperature_2m"] == null ? [] : List<num>.from(json["temperature_2m"]!.map((x) => x?.toDouble())),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "time": time == null ? [] : List<dynamic>.from(time!.map((x) => x)),
+    "temperature_2m": temperature2M == null ? [] : List<dynamic>.from(temperature2M!.map((x) => x)),
+  };
+}
+
+class HourlyUnits {
+  final String? time;
+  final String? temperature2M;
+
+  HourlyUnits({
+    this.time,
+    this.temperature2M,
+  });
+
+  factory HourlyUnits.fromJson(Map<String, dynamic> json) => HourlyUnits(
+    time: json["time"],
+    temperature2M: json["temperature_2m"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "time": time,
+    "temperature_2m": temperature2M,
   };
 }
