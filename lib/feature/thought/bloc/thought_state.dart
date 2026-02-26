@@ -5,7 +5,10 @@ sealed class ThoughtState {}
 
 final class ThoughtInitial extends ThoughtState {}
 final class ThoughtSuccess extends ThoughtState {
-  final ThoughtModel data;
+  final List<dynamic> data;
   ThoughtSuccess(this.data);
 }
-final class ThoughtError extends ThoughtState {}
+final class ThoughtError extends ThoughtState {
+  final String msg;
+  ThoughtError(this.msg);
+}

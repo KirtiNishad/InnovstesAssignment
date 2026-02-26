@@ -9,8 +9,9 @@ final class WeatherLoading extends WeatherState {}
 
 final class WeatherSuccess extends WeatherState {
   final WeatherDataModel weatherData;
+  final String locationName;
 
-  WeatherSuccess(this.weatherData);
+  WeatherSuccess(this.weatherData, this.locationName);
 }
 
 final class WeatherError extends WeatherState {

@@ -16,7 +16,7 @@ class _ThoughtScreenState extends State<ThoughtScreen> {
       body: BlocBuilder<ThoughtBloc, ThoughtState>(
         builder: (context, state) {
           if (state is ThoughtSuccess) {
-            return Text("${state.data.a}");
+            return Text("${state.data}");
           }else{
             return SizedBox();
           }

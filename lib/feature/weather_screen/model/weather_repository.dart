@@ -20,13 +20,8 @@ class WeatherRepository {
         },
       );
 
-      print("Response =========> ${response.data}");
-
       if(response.statusCode == 200){
         WeatherDataModel weatherData = WeatherDataModel.fromJson(response.data);
-
-        print("Weather Data ========> ${weatherData.currentWeather?.temperature}");
-
         return weatherData;
       }
     } on Exception catch ( e) {

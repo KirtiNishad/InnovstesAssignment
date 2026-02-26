@@ -1,3 +1,4 @@
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 
 class LocationService {
@@ -31,4 +32,22 @@ class LocationService {
       desiredAccuracy: LocationAccuracy.high,
     );
   }
+
+  static Future<String> getLocationName(double latitude, double longitude) async {
+    try {
+      List<Placemark> placemarks = await placemarkFromCoordinates(latitude, longitude);
+
+      if (placemarks.isNotEmpty) {
+        Placemark place = placemarks.first;
+       String address = "${place.name}, ${place.subLocality}, ${place.locality}, ${place.country}";
+        return address;
+      } else {
+        return "Location not found";
+      }
+    } catch (e) {
+      print("Error getting location name: $e");
+      return "Error: ${e.toString()}";
+    }
+  }
+
 }

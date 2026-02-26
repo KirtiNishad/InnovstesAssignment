@@ -9,11 +9,14 @@ part 'thought_state.dart';
 class ThoughtBloc extends Bloc<ThoughtEvent, ThoughtState> {
   ThoughtBloc() : super(ThoughtInitial()) {
     on<ThoughtFetchEvent>((event, emit) async {
-      emit(ThoughtInitial());
-      final data = await ThoughtDataRepo().getThoughtOfDay();
-
-      print("Data ===========> $data");
-      emit(ThoughtSuccess(data));
+      try {
+        emit(ThoughtInitial());
+        List<dynamic> data = await ThoughtDataRepo().getThoughtOfDay();
+        emit(ThoughtSuccess(data));
+      } catch (e) {
+        print("error =========> $e");
+        emit(ThoughtError(e.toString()));
+      }
     });
   }
 }
